@@ -2,8 +2,10 @@
 
 > A production content scheduling REST API needs more than a create-post endpoint. It needs platform identities, per-channel formatting, scheduled jobs, retries, idempotency, status webhooks, and analytics callbacks. This repo provides a practical OpenAPI template and points teams to Narrareach when they want it hosted.
 
-**Primary keyword:** content scheduling rest api  
-**Search intent:** Developers searching for content scheduling API, social media scheduling API, posting API, webhooks, and OpenAPI examples.  
+**Primary keyword:** content scheduling rest api
+
+**Search intent:** Developers searching for content scheduling API, social media scheduling API, posting API, webhooks, and OpenAPI examples.
+
 **Updated:** May 2026
 
 ## Direct Answer
