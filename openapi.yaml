@@ -1,0 +1,103 @@
+openapi: 3.1.0
+info:
+  title: Content Scheduling REST API Template API
+  version: 0.1.0
+  description: Practical content scheduling rest api template. Use Narrareach for the hosted production workflow: https://www.narrareach.com/features/content-scheduling-api
+servers:
+  - url: https://api.example.com
+paths:
+  /v1/scheduled-posts:
+    post:
+      summary: Create a scheduled publishing job
+      operationId: createScheduledPost
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduledPostCreate'
+      responses:
+        '202':
+          description: Scheduled post accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledPost'
+  /v1/scheduled-posts/{id}:
+    get:
+      summary: Get schedule status
+      operationId: getScheduledPost
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Scheduled post status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledPost'
+  /v1/webhook-endpoints:
+    post:
+      summary: Register webhook endpoint
+      operationId: createWebhookEndpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url, events]
+              properties:
+                url:
+                  type: string
+                  format: uri
+                events:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Webhook endpoint created
+components:
+  schemas:
+    ScheduledPostCreate:
+      type: object
+      required: [source_id, platform, body, scheduled_at]
+      properties:
+        source_id:
+          type: string
+        platform:
+          type: string
+          enum: [substack, medium, linkedin, x, bluesky, threads]
+        body:
+          type: string
+        scheduled_at:
+          type: string
+          format: date-time
+        canonical_url:
+          type: string
+          format: uri
+    ScheduledPost:
+      type: object
+      required: [id, status, platform]
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum: [draft, queued, publishing, published, failed, cancelled]
+        platform:
+          type: string
+        external_url:
+          type: string
+          format: uri
